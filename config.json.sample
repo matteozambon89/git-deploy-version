@@ -1,0 +1,73 @@
+[
+  {
+    "dir": "/package.json",
+    "versionKeys": [
+      "$.version",
+      "$.versions.{branch}",
+      "$.exportedVersion",
+      "$.exportedVersions.{branch}"
+    ],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/android.json",
+    "versionKeys": ["$.artifactVersion"],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/csharp.json",
+    "versionKeys": ["$.packageVersion"],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/htmlDynamic.json",
+    "versionKeys": ["$.artifactVersion"],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/htmlStatic.json",
+    "versionKeys": ["$.artifactVersion"],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/iosObjc.json",
+    "versionKeys": [
+      "$.artifactVersion",
+      "$.podVersion"
+    ],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/iosSwift.json",
+    "versionKeys": [
+      "$.artifactVersion",
+      "$.podVersion"
+    ],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/javascript.json",
+    "versionKeys": ["$.projectVersion"],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/nodeJs.json",
+    "versionKeys": ["$.apiVersion"],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/php.json",
+    "versionKeys": ["$.artifactVersion"],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/python.json",
+    "versionKeys": ["$.packageVersion"],
+    "prefix": false
+  },
+  {
+    "dir": "/server/codegen/unified.json",
+    "versionKeys": ["$.version"],
+    "prefix": false
+  }
+]
