@@ -109,7 +109,12 @@ module.exports = function() {
   // END - Setup important vars
 
   // Create spinner
-  const spinner = ora('Welcome to deploy!').success()
+  const spinner = ora('')
+
+  spinner.stopAndPersist({
+    'text': 'Welcome to deploy!',
+    'symbol': '🤖'
+  })
 
   function updateVersions() {
     spinner.start('[SEMVER] Update versions...')
@@ -132,12 +137,12 @@ module.exports = function() {
           return applyVersion
         })
 
-        spinner.success('[SEMVER] Updated ' + dir + ' version on ' + versionKey)
+        spinner.succeed('[SEMVER] Updated ' + dir + ' version on ' + versionKey)
       }
 
       fs.writeFileSync(dir, JSON.stringify(file))
 
-      spinner.success('[SEMVER] Saved ' + dir)
+      spinner.succeed('[SEMVER] Saved ' + dir)
     }
 
     return Promise.resolve()
@@ -261,7 +266,10 @@ module.exports = function() {
     .then(function() {
       spinner.succeed()
 
-      spinner.succeed('Completed 🎉')
+      spinner.stopAndPersist({
+        'text': 'Completed',
+        'symbol': '🎉'
+      })
       return Promise.resolve()
     })
     .catch(function(err) {
