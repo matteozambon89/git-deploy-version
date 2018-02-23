@@ -99,7 +99,7 @@ module.exports = function() {
         }
         else if (branch === 'develop') {
           bluemixEnv = 'development'
-          versionNew = semver.inc(versionOld, answers.answers, 'alpha')
+          versionNew = semver.inc(versionOld, answers.bumpType, 'alpha')
         }
 
         return 'Version will go from ' +
