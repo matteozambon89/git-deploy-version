@@ -26,14 +26,16 @@ module.exports = function() {
         'description': 'The project root path',
         'init': function(content) {
           return content.replace(/\/$/, '')
-        }
+        },
+        'defaultValue': process.cwd()
       },
       {
         'name': 'config',
-        'description': 'Config file path',
+        'description': 'Config file path without root and starting with /',
         'init': function(content) {
-          return require(content)
-        }
+          return content
+        },
+        'defaultValue': '/versioning.json'
       }
     ])
 
@@ -51,7 +53,7 @@ module.exports = function() {
   // Setup important vars
 
   const rootDir = flags.root
-  const projectVersions = flags.config
+  const projectVersions = require(flags.root + flags.config)
 
   const pkgDir = rootDir + '/package.json'
 
@@ -234,7 +236,7 @@ module.exports = function() {
             return true
           })
           .sort(function(a, b) {
-            return semver.lt(a, b)
+            return semver.lt(a, b) ? 1 : -1
           })
         const last5Versions = sortedVersion.splice(0, 5)
 
