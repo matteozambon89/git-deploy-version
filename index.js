@@ -24,20 +24,22 @@ module.exports = function() {
   // Read arguments
 
   args
-    .option({
-      'name': 'root',
-      'description': 'The project root path',
-      'init': function(content) {
-        return content.replace(/\/$/, '')
+    .options([
+      {
+        'name': 'root',
+        'description': 'The project root path',
+        'init': function(content) {
+          return content.replace(/\/$/, '')
+        }
+      },
+      {
+        'name': 'config',
+        'description': 'Config file path',
+        'init': function(content) {
+          return require(content)
+        }
       }
-    })
-    .option({
-      'name': 'config',
-      'description': 'Config file path',
-      'init': function(content) {
-        return require(content)
-      }
-    })
+    ])
 
   const flags = args.parse(process.argv)
 
