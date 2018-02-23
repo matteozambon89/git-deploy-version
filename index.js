@@ -68,6 +68,24 @@ module.exports = function() {
 
   const questionsBefore = [
     {
+      'message': 'Which bump type would you like apply?',
+      'type': 'list',
+      'name': 'bumpType',
+      'choices': [
+        'release',
+        'patch',
+        'minor',
+        'major'
+      ],
+      'when': function() {
+        return branch === 'develop'
+      },
+      'filter': function(input) {
+        return 'pre' + input
+      },
+      'default': 'prerelease'
+    },
+    {
       'message': function(answers) {
         let bluemixEnv
 
@@ -81,7 +99,7 @@ module.exports = function() {
         }
         else if (branch === 'develop') {
           bluemixEnv = 'development'
-          versionNew = semver.inc(versionOld, 'prerelease', 'alpha')
+          versionNew = semver.inc(versionOld, answers.answers, 'alpha')
         }
 
         return 'Version will go from ' +
@@ -261,6 +279,17 @@ module.exports = function() {
       spinner.start('[GIT] Move to develop from ' + branch + ' ...')
       return git
         .checkout('develop')
+        .pull('origin', 'develop')
+    })
+    .then(function() {
+      if (branch === 'develop') {
+        return Promise.resolve()
+      }
+
+      spinner.succeed()
+
+      spinner.start('[GIT] Pull latest updates on develop branch...')
+      return git
         .pull('origin', 'develop')
     })
     .then(function() {
