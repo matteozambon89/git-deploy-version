@@ -274,6 +274,7 @@ module.exports = function() {
     })
     .catch(function(err) {
       if (err instanceof Error) {
+        spinner.fail()
         console.log(err)
       }
     })
