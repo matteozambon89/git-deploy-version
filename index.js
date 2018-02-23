@@ -140,7 +140,7 @@ module.exports = function() {
         spinner.succeed('[SEMVER] Updated ' + dir + ' version on ' + versionKey)
       }
 
-      fs.writeFileSync(dir, JSON.stringify(file))
+      fs.writeFileSync(dir, JSON.stringify(file, null, 2))
 
       spinner.succeed('[SEMVER] Saved ' + dir)
     }
