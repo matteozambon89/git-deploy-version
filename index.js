@@ -171,7 +171,7 @@ module.exports = function() {
     .then(function(branches) {
       branch = branches.current
 
-      if (branch.match(/^(develop|stage|master)$/)) {
+      if (!branch.match(/^(develop|stage|master)$/)) {
         spinner.fail('Branch ' + branch + ' is not allowed!')
         return Promise.reject()
       }
