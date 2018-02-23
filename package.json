@@ -1,6 +1,6 @@
 {
   "name": "git-deploy-version",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.1",
   "description": "Deploy flow using GIT and SemVer",
   "main": "index.js",
   "author": "Matteo Zambon <matteo@thetophat.org>",
@@ -27,6 +27,6 @@
     "eslint-plugin-standard": "^3.0.1"
   },
   "bin": {
-    "git-deploy-version": "index.js"
+    "git-deploy-version": "bin/cmd.js"
   }
 }
