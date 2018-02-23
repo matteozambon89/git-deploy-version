@@ -11,11 +11,7 @@ const ora = require('ora')
 const semver = require('semver')
 const format = require('string-template')
 const jp = require('jsonpath')
-const gitSemverTags = require('git-semver-tags', {
-  'tagPrefix': 'v',
-})
 const simpleGit = require('simple-git/promise')
-const promisify = require('util').promisify
 const fs = require('fs')
 const args = require('args')
 const inquirer = require('inquirer')
@@ -72,18 +68,17 @@ module.exports = function() {
       'type': 'list',
       'name': 'bumpType',
       'choices': [
-        'release',
         'patch',
         'minor',
         'major'
       ],
       'when': function() {
-        return branch === 'develop'
+        return branch === 'develop' && !versionOld.match(/-(alpha|beta)\./)
       },
       'filter': function(input) {
         return 'pre' + input
       },
-      'default': 'prerelease'
+      'default': 'patch'
     },
     {
       'message': function(answers) {
@@ -99,14 +94,14 @@ module.exports = function() {
         }
         else if (branch === 'develop') {
           bluemixEnv = 'development'
-          versionNew = semver.inc(versionOld, answers.bumpType, 'alpha')
+          versionNew = semver.inc(versionOld, answers.bumpType || 'prerelease', 'alpha')
         }
 
         return 'Version will go from ' +
           versionOld +
           ' to ' +
           versionNew +
-          '. Deploy ' +
+          ' . Deploy ' +
           branch +
           ' to ' +
           bluemixEnv +
@@ -131,7 +126,7 @@ module.exports = function() {
 
   spinner.stopAndPersist({
     'text': 'Welcome to deploy!',
-    'symbol': '🤖'
+    'symbol': '🤖 '
   })
 
   function updateVersions() {
@@ -194,7 +189,11 @@ module.exports = function() {
         return Promise.reject()
       }
 
-      spinner.succeed('[GIT] Current branch name is: ' + branch)
+      spinner.succeed('[GIT] Current branch name is: ')
+      spinner.stopAndPersist({
+        'text': branch,
+        'symbol': '👉 '
+      })
       return Promise.resolve()
     })
     .then(function() {
@@ -215,18 +214,42 @@ module.exports = function() {
     .then(function() {
       spinner.succeed()
 
-      spinner.start('[GIT] Find grater tag...')
+      spinner.start('[GIT] Find greater tag...')
 
-      return promisify(gitSemverTags)()
+      return git.tags()
     })
-    .then(function(results) {
-      const versions = results[2]
+    .then(function(tags) {
+      spinner.succeed()
 
-      if (versions && versions.length > 0) {
-        versionOld = versions[0]
+      if (tags && tags.all && tags.all.length > 0) {
+        const sortedVersion = tags.all
+          .filter(function(el) {
+            if (!semver.valid(el)) {
+              return false
+            }
+            else if (branch === 'develop' && el.match(/-beta\./)) {
+              return false
+            }
+
+            return true
+          })
+          .sort(function(a, b) {
+            return semver.lt(a, b)
+          })
+        const last5Versions = sortedVersion.splice(0, 5)
+
+        for (const k in last5Versions) {
+          spinner.stopAndPersist({
+            'text': last5Versions[k],
+            'symbol': k == 0 ? '👉 ' : '⚬ '
+          })
+        }
+
+        versionOld = last5Versions[0]
       }
-
-      spinner.succeed('[GIT] Greater version is: ' + versionOld)
+      else {
+        spinner.warn('Greater tag not found, keep package version: ' + versionOld)
+      }
 
       return inquirer.prompt(questionsBefore)
     })
@@ -279,7 +302,6 @@ module.exports = function() {
       spinner.start('[GIT] Move to develop from ' + branch + ' ...')
       return git
         .checkout('develop')
-        .pull('origin', 'develop')
     })
     .then(function() {
       if (branch === 'develop') {
@@ -297,7 +319,7 @@ module.exports = function() {
 
       spinner.stopAndPersist({
         'text': 'Completed',
-        'symbol': '🎉'
+        'symbol': '🎉 '
       })
       return Promise.resolve()
     })
