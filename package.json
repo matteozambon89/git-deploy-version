@@ -1,6 +1,6 @@
 {
   "name": "git-deploy-version",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Deploy flow using GIT and SemVer",
   "main": "index.js",
   "author": "Matteo Zambon <matteo@thetophat.org>",

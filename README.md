@@ -1,4 +1,4 @@
-# trailpack-koa
+# git-deploy-version
 
 [![NPM version][npm-image]][npm-url]
 [![Dependency Status][daviddm-image]][daviddm-url]
@@ -53,9 +53,9 @@ I'm happy to receive contributions of any kind!
 Help me out with a little donation, press on the button below.
 [![Donate][donate-image]][donate-url]
 
-[npm-image]: https://img.shields.io/npm/v/trailpack-koa.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/trailpack-koailpack-koa
-[daviddm-image]: http://img.shields.io/david/matteozambon89/trailpack-koa.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/matteozambon89/trailpack-koa
+[npm-image]: https://img.shields.io/npm/v/git-deploy-version.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/git-deploy-version
+[daviddm-image]: http://img.shields.io/david/matteozambon89/git-deploy-version.svg?style=flat-square
+[daviddm-url]: https://david-dm.org/matteozambon89/git-deploy-version
 [donate-image]: https://img.shields.io/badge/Donate-PayPal-green.svg
 [donate-url]: matteo.zambon.89@gmail.com

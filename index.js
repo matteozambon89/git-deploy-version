@@ -2,7 +2,7 @@
  * @Author: Matteo Zambon <Matteo>
  * @Date:   2018-02-22 04:24:26
  * @Last modified by:   Matteo
- * @Last modified time: 2018-02-23 09:20:01
+ * @Last modified time: 2018-03-26 08:46:29
  */
 
 'use strict'
@@ -274,7 +274,7 @@ module.exports = function() {
       spinner.succeed()
 
       spinner.start('[GIT] Add commit...')
-      return git.commit('Released v' + versionNew)
+      return git.commit('Released v' + versionNew + ' #deploy')
     })
     .then(function() {
       spinner.succeed()
