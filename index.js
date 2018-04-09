@@ -2,7 +2,7 @@
  * @Author: Matteo Zambon <Matteo>
  * @Date:   2018-02-22 04:24:26
  * @Last modified by:   Matteo
- * @Last modified time: 2018-03-26 08:46:29
+ * @Last modified time: 2018-04-09 08:26:15
  */
 
 'use strict'
@@ -10,7 +10,7 @@
 const ora = require('ora')
 const semver = require('semver')
 const format = require('string-template')
-const jp = require('jsonpath')
+const jpp = require('json-path-processor')
 const simpleGit = require('simple-git/promise')
 const fs = require('fs')
 const args = require('args')
@@ -148,9 +148,7 @@ module.exports = function() {
           'branch': branch,
         })
 
-        jp.apply(file, versionKey, function() {
-          return applyVersion
-        })
+        jpp(file).set(versionKey, applyVersion)
 
         spinner.succeed('[SEMVER] Updated ' + dir + ' version on ' + versionKey)
       }
